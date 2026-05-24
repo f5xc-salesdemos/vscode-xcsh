@@ -1,10 +1,19 @@
 // src/test/unit/webview/sessions.test.ts
 // Copyright (c) 2026 Robin Mordasiewicz. MIT License.
 
-type SessionsModule = typeof import('../../../../webview/src/state/sessions');
+import * as path from 'node:path';
+
+const SESSIONS_PATH = path.resolve(__dirname, '../../../../webview/src/state/sessions');
+
+type SessionsModule = {
+  subscribe: (fn: () => void) => () => void;
+  getSessions: () => Array<{ id: string }>;
+  getActiveSession: () => { id: string } | null;
+  createNewSession: () => { id: string };
+};
 
 function loadSessions(): SessionsModule {
-  return require('../../../../webview/src/state/sessions') as SessionsModule;
+  return require(SESSIONS_PATH) as SessionsModule;
 }
 
 describe('sessions manager', () => {
