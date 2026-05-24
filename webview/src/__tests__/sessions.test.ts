@@ -1,9 +1,5 @@
-// src/test/unit/webview/sessions.test.ts
+// webview/src/__tests__/sessions.test.ts
 // Copyright (c) 2026 Robin Mordasiewicz. MIT License.
-
-import * as path from 'node:path';
-
-const SESSIONS_PATH = path.resolve(__dirname, '../../../../webview/src/state/sessions');
 
 type SessionsModule = {
   subscribe: (fn: () => void) => () => void;
@@ -13,7 +9,7 @@ type SessionsModule = {
 };
 
 function loadSessions(): SessionsModule {
-  return require(SESSIONS_PATH) as SessionsModule;
+  return require('../state/sessions') as SessionsModule;
 }
 
 describe('sessions manager', () => {

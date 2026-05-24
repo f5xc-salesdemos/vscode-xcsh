@@ -50,15 +50,12 @@ module.exports = {
       roots: ['<rootDir>/src'],
       testMatch: [
         '**/unit/**/*.test.ts',
-        // Include integration live tests only when F5XC_API_URL is set
         ...(process.env.F5XC_API_URL ? ['**/integration/live*.test.ts'] : []),
       ],
       testPathIgnorePatterns: [
         '/node_modules/',
         '/dist/',
         '/out/',
-        '/src/test/unit/webview/',
-        // Skip integration tests by default unless env var is set
         ...(process.env.F5XC_API_URL ? [] : ['/integration/']),
       ],
       moduleFileExtensions: ['ts', 'js', 'json'],
@@ -69,11 +66,10 @@ module.exports = {
       displayName: 'webview',
       preset: 'ts-jest',
       testEnvironment: 'jsdom',
-      roots: ['<rootDir>/src/test/unit/webview', '<rootDir>/webview'],
-      testMatch: ['**/*.test.ts'],
+      roots: ['<rootDir>/webview'],
+      testMatch: ['**/__tests__/**/*.test.ts'],
       testPathIgnorePatterns: ['/node_modules/', '/dist/', '/out/'],
       moduleFileExtensions: ['ts', 'js', 'json'],
-      moduleNameMapper: sharedModuleNameMapper,
       transform: sharedTransform,
     },
   ],

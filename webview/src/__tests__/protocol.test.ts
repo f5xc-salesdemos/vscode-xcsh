@@ -1,9 +1,5 @@
-// src/test/unit/webview/protocol.test.ts
+// webview/src/__tests__/protocol.test.ts
 // Copyright (c) 2026 Robin Mordasiewicz. MIT License.
-
-import * as path from 'node:path';
-
-const PROTOCOL_PATH = path.resolve(__dirname, '../../../../webview/src/lib/protocol');
 
 type ProtocolModule = {
   initProtocol: () => void;
@@ -12,7 +8,7 @@ type ProtocolModule = {
 };
 
 function loadProtocol(): ProtocolModule {
-  return require(PROTOCOL_PATH) as ProtocolModule;
+  return require('../lib/protocol') as ProtocolModule;
 }
 
 describe('webview protocol', () => {
