@@ -333,6 +333,72 @@ export class LanguageModelTextPart {
   constructor(public readonly value: string) {}
 }
 
+// Mock CompletionItemKind
+export enum CompletionItemKind {
+  Text = 0,
+  Method = 1,
+  Function = 2,
+  Constructor = 3,
+  Field = 4,
+  Variable = 5,
+  Class = 6,
+  Interface = 7,
+  Module = 8,
+  Property = 9,
+  Unit = 10,
+  Value = 11,
+  Enum = 12,
+  EnumMember = 13,
+  Keyword = 14,
+  Snippet = 15,
+  Color = 16,
+  File = 17,
+  Reference = 18,
+  Folder = 19,
+}
+
+// Mock CompletionItem
+export class CompletionItem {
+  insertText?: string | SnippetString;
+  documentation?: string | MarkdownString;
+  sortText?: string;
+  detail?: string;
+  kind?: CompletionItemKind;
+
+  constructor(
+    public label: string | { label: string },
+    kind?: CompletionItemKind,
+  ) {
+    this.kind = kind;
+  }
+}
+
+// Mock CompletionList
+export class CompletionList {
+  constructor(
+    public items: CompletionItem[] = [],
+    public isIncomplete = false,
+  ) {}
+}
+
+// Mock SnippetString
+export class SnippetString {
+  constructor(public value: string = '') {}
+}
+
+// Mock InlineCompletionItem
+export class InlineCompletionItem {
+  constructor(
+    public insertText: string | SnippetString,
+    public range?: Range,
+  ) {}
+}
+
+// Mock InlineCompletionList
+export class InlineCompletionList {
+  constructor(public items: InlineCompletionItem[] = []) {}
+}
+
 // Mock LanguageModelToolCallPart
 export class LanguageModelToolCallPart {
   constructor(
