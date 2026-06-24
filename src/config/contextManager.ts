@@ -320,6 +320,9 @@ export class ContextManager implements ContextManagerInterface, vscode.Disposabl
 
   /** Set the active local context pointer. */
   setLocalActiveContext(name: string, workspaceFolder: string): Promise<void> {
+    if (!isValidContextName(name)) {
+      return Promise.reject(new Error(`Invalid context name: "${name}"`));
+    }
     const filePath = getLocalContextPath(name, workspaceFolder);
     if (!fs.existsSync(filePath)) {
       return Promise.reject(new Error(`Local context "${name}" not found`));
@@ -337,6 +340,9 @@ export class ContextManager implements ContextManagerInterface, vscode.Disposabl
 
   /** Delete a local context file. */
   async deleteLocalContext(name: string, workspaceFolder: string): Promise<void> {
+    if (!isValidContextName(name)) {
+      throw new Error(`Invalid context name: "${name}"`);
+    }
     const filePath = getLocalContextPath(name, workspaceFolder);
     if (!fs.existsSync(filePath)) {
       throw new Error(`Local context "${name}" not found`);
@@ -361,6 +367,9 @@ export class ContextManager implements ContextManagerInterface, vscode.Disposabl
    * context by name, with optional overrides.
    */
   async linkGlobalContext(globalName: string, workspaceFolder: string, overrides?: ContextOverrides): Promise<void> {
+    if (!isValidContextName(globalName)) {
+      throw new Error(`Invalid context name: "${globalName}"`);
+    }
     // Verify the global context exists
     const globalPath = getContextPath(globalName);
     if (!fs.existsSync(globalPath)) {

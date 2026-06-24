@@ -27,7 +27,7 @@ import {
   getLocalContextPath,
   getLocalContextsDir,
 } from './contextPaths';
-import type { F5XCContext } from './contextTypes';
+import { type F5XCContext, isValidContextName } from './contextTypes';
 
 // ───────── public types ─────────
 
@@ -134,7 +134,7 @@ function resolveFromLocal(workspaceFolder: string): ResolvedContext | null {
 
   const activeContextPath = getLocalActiveContextPath(workspaceFolder);
   const activeName = readActivePointer(activeContextPath);
-  if (!activeName) {
+  if (!activeName || !isValidContextName(activeName)) {
     return null;
   }
 
@@ -167,7 +167,7 @@ function resolveFromGlobal(): ResolvedContext | null {
 
   const activeContextPath = getActiveContextPath();
   const activeName = readActivePointer(activeContextPath);
-  if (!activeName) {
+  if (!activeName || !isValidContextName(activeName)) {
     return null;
   }
 
@@ -193,6 +193,9 @@ function resolveFromGlobal(): ResolvedContext | null {
 }
 
 function resolvePointer(pointer: PointerContext, pointerPath: string): ResolvedContext | null {
+  if (!isValidContextName(pointer.context)) {
+    return null;
+  }
   const globalPath = getContextPath(pointer.context);
   const globalData = readJsonFile(globalPath);
   if (!globalData) {
